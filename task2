@@ -1,0 +1,116 @@
+package codetech;
+	import java.util.ArrayList;
+	import java.util.List;
+	import java.util.Scanner;
+
+	public class StudentGradeTracker {
+
+	    public static void main(String[] args) {
+	        Scanner scanner = new Scanner(System.in);
+
+	        // Create lists to store grades for different subjects
+	        List<Double> gradesMath = new ArrayList<>();
+	        List<Double> gradesScience = new ArrayList<>();
+	        List<Double> gradesEnglish = new ArrayList<>();
+
+	        // Variables to store total points and count of grades
+	        int countMath = 0, countScience = 0, countEnglish = 0;
+	        double totalMath = 0, totalScience = 0, totalEnglish = 0;
+
+	        // Loop to input grades for different subjects
+	        boolean continueInput = true;
+	        while (continueInput) {
+	            System.out.println("Choose subject to input grades:");
+	            System.out.println("1. Math");
+	            System.out.println("2. Science");
+	            System.out.println("3. English");
+	            System.out.println("4. Calculate Average Grades");
+	            System.out.print("Enter your choice (1/2/3/4): ");
+	            int choice = scanner.nextInt();
+
+	            switch (choice) {
+	                case 1:
+	                    System.out.print("Enter math grade: ");
+	                    double gradeMath = scanner.nextDouble();
+	                    gradesMath.add(gradeMath);
+	                    totalMath += gradeMath;
+	                    countMath++;
+	                    break;
+	                case 2:
+	                    System.out.print("Enter science grade: ");
+	                    double gradeScience = scanner.nextDouble();
+	                    gradesScience.add(gradeScience);
+	                    totalScience += gradeScience;
+	                    countScience++;
+	                    break;
+	                case 3:
+	                    System.out.print("Enter english grade: ");
+	                    double gradeEnglish = scanner.nextDouble();
+	                    gradesEnglish.add(gradeEnglish);
+	                    totalEnglish += gradeEnglish;
+	                    countEnglish++;
+	                    break;
+	                case 4:
+	                    continueInput = false;
+	                    break;
+	                default:
+	                    System.out.println("Invalid choice. Please enter a number from 1 to 4.");
+	                    break;
+	            }
+	        }
+
+	        // Calculate average grades for each subject
+	        double avgMath = (countMath > 0) ? totalMath / countMath : 0;
+	        double avgScience = (countScience > 0) ? totalScience / countScience : 0;
+	        double avgEnglish = (countEnglish > 0) ? totalEnglish / countEnglish : 0;
+
+	        // Calculate overall GPA
+	        double overallGPA = calculateGPA(avgMath, avgScience, avgEnglish);
+
+	        // Display results
+	        System.out.println("\n----- Grade Summary -----");
+	        System.out.println("Math:");
+	        displayGrades(gradesMath, avgMath);
+	        System.out.println("Science:");
+	        displayGrades(gradesScience, avgScience);
+	        System.out.println("English:");
+	        displayGrades(gradesEnglish, avgEnglish);
+	        System.out.println("\nOverall GPA: " + overallGPA);
+	        System.out.println("Overall Grade: " + calculateLetterGrade(overallGPA));
+
+	        scanner.close();
+	    }
+
+	    // Method to calculate GPA based on average grades
+	    public static double calculateGPA(double math, double science, double english) {
+	        return (math + science + english) / 3.0;
+	    }
+
+	    // Method to calculate letter grade based on GPA
+	    public static String calculateLetterGrade(double gpa) {
+	        if (gpa >= 3.5) {
+	            return "A";
+	        } else if (gpa >= 3.0) {
+	            return "B";
+	        } else if (gpa >= 2.0) {
+	            return "C";
+	        } else if (gpa >= 1.0) {
+	            return "D";
+	        } else {
+	            return "F";
+	        }
+	    }
+
+	    // Method to display grades for a subject along with average
+	    public static void displayGrades(List<Double> grades, double avgGrade) {
+	        if (grades.isEmpty()) {
+	            System.out.println("No grades entered.");
+	        } else {
+	            System.out.print("Grades: ");
+	            for (Double grade : grades) {
+	                System.out.print(grade + " ");
+	            }
+	            System.out.println("\nAverage Grade: " + avgGrade);
+	        }
+	    }
+	}
